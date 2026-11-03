@@ -1,141 +1,92 @@
-ThermalBench
+# ThermalBench
 
-ThermalBench is a lightweight Linux CLI utility for CPU stress testing, temperature monitoring and thermal performance comparison.
+A lightweight Linux CLI utility for CPU stress testing, temperature monitoring, and before/after thermal performance comparison.
 
-It allows you to measure CPU temperatures before and after replacing thermal paste, changing a cooling system or modifying your cooling configuration.
+## Features
 
-The utility uses the native Linux "stress" and "lm-sensors" tools to perform CPU stress tests and collect temperature readings.
+- CPU stress testing using `stress`
+- Automatic CPU thread detection
+- Manual worker configuration
+- Real-time CPU temperature monitoring
+- Configurable temperature limit
+- Before/after temperature snapshots
+- Temperature comparison
+- Terminal interface using `curses`
 
-Features
-
-- Before / After testing — save separate temperature snapshots before and after hardware modifications.
-- Automatic CPU stress testing — use all available logical CPU threads.
-- Manual stress testing — select the number of CPU workers.
-- Configurable test duration — choose between recommended and custom durations.
-- Temperature monitoring — display CPU temperatures during stress testing.
-- Temperature safety limit — optionally stop testing when a configured temperature threshold is reached.
-- Sensor snapshots — save the complete "sensors" output to separate text files.
-- Temperature comparison — compare recorded CPU temperatures in the terminal.
-
-Requirements
-
-Operating system
+## Requirements
 
 - Linux
-- Python 3.10 or newer
-- "stress"
-- "lm-sensors"
+- Python 3.10+
+- `stress`
+- `lm-sensors`
 
-Python dependencies
+## Installation
 
-No external Python packages are required.
+Install dependencies:
 
-The project uses Python standard library modules:
-
-- "curses" — terminal interface
-- "subprocess" — system command execution
-- "multiprocessing" — CPU worker management (not required in versions using external "stress")
-- "pathlib" — file management
-- "re" — temperature parsing
-- "time" — test timing
-
-Installation
-
-Ubuntu / Debian
-
-Install the required system packages:
-
+```bash
 sudo apt update
 sudo apt install python3 stress lm-sensors
-
-Configure and verify hardware sensors:
-
 sudo sensors-detect
-sensors
+```
 
 Clone the repository:
 
-git clone https://github.com/YOUR_USERNAME/thermalbench.git
+```bash
+git clone https://github.com/NUTIS-YT/thermalbench.git
 cd thermalbench
+```
 
-Run ThermalBench:
+Run:
 
+```bash
 python3 cputest.py
+```
 
-Configuration
+## Configuration
 
-ThermalBench supports basic configuration directly in the source code.
+Edit the configuration variables in `cputest.py`:
 
-Example:
-
+```python
 TEMP_LIMIT = None
 DEFAULT_DURATION = 300
 MAX_DURATION = 3600
+```
 
-Variable| Description
-"TEMP_LIMIT"| Maximum allowed CPU temperature. "None" disables the limit.
-"DEFAULT_DURATION"| Recommended test duration in seconds.
-"MAX_DURATION"| Maximum manually configured test duration.
+| Variable | Description |
+|---|---|
+| `TEMP_LIMIT` | Maximum CPU temperature in °C. `None` disables the limit. |
+| `DEFAULT_DURATION` | Default test duration in seconds. |
+| `MAX_DURATION` | Maximum allowed test duration in seconds. |
 
-Usage
+## Usage
 
-Launch the application:
+Launch ThermalBench:
 
+```bash
 python3 cputest.py
+```
 
-Select one of the available options:
+Available operations:
 
-1. Before thermal paste replacement — perform a stress test and save "before.txt".
-2. After thermal paste replacement — perform a stress test and save "after.txt".
-3. Temperature comparison — compare previously saved measurements.
+1. Record temperatures before thermal paste replacement.
+2. Record temperatures after thermal paste replacement.
+3. Compare recorded temperatures.
+4. Exit.
 
-Both test modes support automatic and manual CPU worker selection.
+## Output Files
 
-Output files
+- `before.txt` — temperature snapshot before replacement.
+- `after.txt` — temperature snapshot after replacement.
 
-ThermalBench stores sensor snapshots in the application directory.
+These files contain sensor readings and should not be committed to the repository.
 
-thermalbench/
-├── cputest.py
-├── before.txt
-└── after.txt
+## Dependencies
 
-- "before.txt" — sensor readings before hardware modifications.
-- "after.txt" — sensor readings after hardware modifications.
+ThermalBench uses Python standard library modules and external system utilities.
 
-The files contain the complete output of the Linux "sensors" command.
+No additional Python packages are required.
 
-How it works
+## License
 
-ThermalBench uses the following workflow:
-
-1. Select a testing profile.
-2. Configure CPU stress workers.
-3. Select the test duration.
-4. Start CPU stress using "stress".
-5. Monitor CPU temperatures.
-6. Capture sensor readings while the stress test is still running.
-7. Stop the stress process after saving the snapshot.
-
-Notes
-
-For reliable comparisons, keep the following conditions identical:
-
-- CPU stress worker count.
-- Test duration.
-- CPU frequency and power settings.
-- Fan speeds.
-- Ambient temperature.
-- Cooling configuration.
-
-Temperature results may vary depending on the motherboard, CPU sensors, cooling system and environmental conditions.
-
-Warning: CPU stress testing generates sustained high temperatures and power consumption. Monitor your hardware and use an appropriate temperature limit when necessary.
-
-License
-
-MIT License (see "LICENSE" (LICENSE)).
-
----
-
-ThermalBench — Measure the difference. Not just the temperature.
+This project is licensed under the MIT License.
